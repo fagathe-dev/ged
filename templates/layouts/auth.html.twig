@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, shrink-to-fit=no">
+  <meta name="description" content="CV développeur Web : création et développement de sites et d'applications Web. HTML5, CSS3, JQuery, Javascript, Bootstrap, PHP, Symfony, ...">
+  <meta name="Keywords" content="Frédérick AGATHE, développeur, développeur Symfony, développeur PHP, développeur web Paris, développeur php île-de-france, web, CV, site CV, site portfoli, application web, html5, css3, jquery, php, javascript">
+  <meta name="robots" content="index,follow,all">
+  <meta name="author" content="Frédérick AGATHE">
+  <meta name="google-site-verification" content="fH4YZu6ohhwsaYnR9reZGstqt6dClSoInCyke7Y1_eQ">    
+  <!-- App favicon -->
+  <link rel="shortcut icon" href="{{ asset('img/logo.png') }}">
+
+  {% if app.environment == "prod" %}
+    <!-- Google Analytics pour le site prod -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-75ZJ4S8NBF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-75ZJ4S8NBF');
+    </script> 
+  {% endif %}
+    
+  <!-- Layout config Js -->
+  <script src="{{ asset('js/layout.js') }}"></script>
+  <!-- Bootstrap Css -->
+  <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+  <!-- Icons Css -->
+  <link href="{{ asset('css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+  <!-- App Css-->
+  <link href="{{ asset('css/app.min.css') }}" rel="stylesheet" type="text/css" />
+  <!-- custom Css-->
+  <link href="{{ asset('css/custom' ~ ( app.environment == 'dev' ? '' : '.min') ~ '.css') }}" rel="stylesheet" type="text/css" />
+  {% block stylesheets %}{% endblock %}
+      
+  <!-- Aos library Js File -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+  <title>{{ (title is defined) ? title ~ ' |' : 'Frédérick AGATHE, portfolio développeur php-react' }}</title>
+</head>
+<body>
+    
+  <!-- Begin page -->
+  <div class="layout-wrapper landing">
+      
+    <!-- start navbar -->
+    {% include "components/header.html.twig" %}
+    <!-- end navbar -->
+
+    <main class="container-fluid container-xxl bg-light" id="auth">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 col-xl-5">
+          <div class="card mt-4">
+            <div class="card-body p-4">
+              {% block main %}{% endblock %}
+            </div>
+            <!-- end card body -->
+          </div>
+          <!-- end card -->
+          <div class="mt-4 text-center">
+            {% block footer %}{% endblock %}
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- end navbar -->
+    <div class="vertical-overlay" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent.show"></div>
+
+    <!--start back-to-top-->
+    <button onclick="topFunction()" class="btn btn-danger btn-icon landing-back-top" id="back-to-top">
+      <i class="ri-arrow-up-line"></i>
+    </button>
+    <!--end back-to-top-->
+
+  </div>
+  <!-- end layout wrapper -->
+
+  <!-- JAVASCRIPT -->
+  <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('libs/simplebar/simplebar.min.js') }}"></script>
+  <script src="{{ asset('libs/node-waves/waves.min.js') }}"></script>
+  <script src="{{ asset('libs/feather-icons/feather.min.js') }}"></script>
+  <script src="{{ asset('js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
+  <script src="{{ asset('js/plugins.js') }}"></script>
+
+  <!-- landing init -->
+  <script src="{{ asset('js/pages/nft-landing.init.js') }}"></script>
+
+  <!-- Custom javascripts --> 
+  {% block javascripts %}{% endblock %}
+</body>
+</html>
