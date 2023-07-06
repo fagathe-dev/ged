@@ -1,3 +1,8 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+
+tracking_routes:
+    # loads routes from the YAML, XML or PHP files found in that directory
+    resource: '../tracking/config'
+    type: directory
