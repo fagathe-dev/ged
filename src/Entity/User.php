@@ -54,7 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $image = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $creaetedAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
@@ -178,14 +178,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreaetedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->creaetedAt;
+        return $this->createdAt;
     }
 
-    public function setCreaetedAt(\DateTimeImmutable $creaetedAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->creaetedAt = $creaetedAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -52,8 +52,16 @@
     <div class="layout-wrapper landing">
         
         <!-- start navbar -->
-        {% include "components/header.html.twig" %}
+        {% include "components/navbar.html.twig" %}
         <!-- end navbar -->
+
+        <!-- start hero -->
+        {% block hero %}{% endblock %}
+        <!-- end hero -->
+
+        <!-- start breadcrumb -->
+        {% include "components/breadcrumb.html.twig" %}
+        <!-- end breadcrumb -->
 
         <main class="container-fluid container-xxl">
             {% block main %}{% endblock %}

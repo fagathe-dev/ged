@@ -9,6 +9,10 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class TrackingBundle extends AbstractBundle
 {
 
+    /**
+     * @param  mixed $container
+     * @return void
+     */
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
