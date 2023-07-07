@@ -19,6 +19,12 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    Tracking\:
+        resource: '../tracking/src/'
+        exclude:
+            - '../tracking/src/DependencyInjection/'
+            - '../tracking/src/Entity/'
+            - '../tracking/src/Kernel.php'
     
     # Add custom twig filters & functions
     twig_extension:
