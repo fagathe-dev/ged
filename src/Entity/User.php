@@ -68,20 +68,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 80, nullable: true)]
     private ?string $lastname = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: File::class)]
-    private Collection $files;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Folder::class)]
-    private Collection $folders;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Room::class)]
-    private Collection $rooms;
-
     public function __construct()
     {
-        $this->files = new ArrayCollection();
-        $this->folders = new ArrayCollection();
-        $this->rooms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -238,93 +226,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, File>
-     */
-    public function getFiles(): Collection
-    {
-        return $this->files;
-    }
-
-    public function addFile(File $file): static
-    {
-        if (!$this->files->contains($file)) {
-            $this->files->add($file);
-            $file->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFile(File $file): static
-    {
-        if ($this->files->removeElement($file)) {
-            // set the owning side to null (unless already changed)
-            if ($file->getUser() === $this) {
-                $file->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Folder>
-     */
-    public function getFolders(): Collection
-    {
-        return $this->folders;
-    }
-
-    public function addFolder(Folder $folder): static
-    {
-        if (!$this->folders->contains($folder)) {
-            $this->folders->add($folder);
-            $folder->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFolder(Folder $folder): static
-    {
-        if ($this->folders->removeElement($folder)) {
-            // set the owning side to null (unless already changed)
-            if ($folder->getUser() === $this) {
-                $folder->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Room>
-     */
-    public function getRooms(): Collection
-    {
-        return $this->rooms;
-    }
-
-    public function addRoom(Room $room): static
-    {
-        if (!$this->rooms->contains($room)) {
-            $this->rooms->add($room);
-            $room->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRoom(Room $room): static
-    {
-        if ($this->rooms->removeElement($room)) {
-            // set the owning side to null (unless already changed)
-            if ($room->getUser() === $this) {
-                $room->setUser(null);
-            }
-        }
-
-        return $this;
-    }
 }

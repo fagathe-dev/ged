@@ -91,7 +91,7 @@ section.section {
 
 main {
   min-height: calc(100vh - 72px);
-  padding-top: 90px;
+  padding-top: 10px;
 }
 
 .card, .card-body, .card-header, .card-footer {
