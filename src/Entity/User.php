@@ -68,8 +68,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 80, nullable: true)]
     private ?string $lastname = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: FolderUser::class)]
+    private Collection $folderUsers;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: File::class)]
+    private Collection $files;
+
     public function __construct()
     {
+        $this->folderUsers = new ArrayCollection();
+        $this->files = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -222,6 +230,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(?string $lastname): static
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FolderUser>
+     */
+    public function getFolderUsers(): Collection
+    {
+        return $this->folderUsers;
+    }
+
+    public function addFolderUser(FolderUser $folderUser): static
+    {
+        if (!$this->folderUsers->contains($folderUser)) {
+            $this->folderUsers->add($folderUser);
+            $folderUser->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFolderUser(FolderUser $folderUser): static
+    {
+        if ($this->folderUsers->removeElement($folderUser)) {
+            // set the owning side to null (unless already changed)
+            if ($folderUser->getUser() === $this) {
+                $folderUser->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, File>
+     */
+    public function getFiles(): Collection
+    {
+        return $this->files;
+    }
+
+    public function addFile(File $file): static
+    {
+        if (!$this->files->contains($file)) {
+            $this->files->add($file);
+            $file->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(File $file): static
+    {
+        if ($this->files->removeElement($file)) {
+            // set the owning side to null (unless already changed)
+            if ($file->getOwner() === $this) {
+                $file->setOwner(null);
+            }
+        }
 
         return $this;
     }
