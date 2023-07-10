@@ -37,6 +37,9 @@ class File
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'files')]
+    private ?FileType $type = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -134,6 +137,18 @@ class File
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getType(): ?FileType
+    {
+        return $this->type;
+    }
+
+    public function setType(?FileType $type): static
+    {
+        $this->type = $type;
 
         return $this;
     }

@@ -18,9 +18,6 @@ class Folder
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 12, nullable: true)]
-    private ?string $color = null;
-
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
@@ -30,7 +27,7 @@ class Folder
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'folder', targetEntity: FolderUser::class)]
+    #[ORM\OneToMany(mappedBy: 'folder', targetEntity: FolderUser::class, cascade: ['persist', 'remove'])]
     private Collection $users;
 
     #[ORM\OneToMany(mappedBy: 'folder', targetEntity: File::class)]
@@ -59,18 +56,6 @@ class Folder
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getColor(): ?string
-    {
-        return $this->color;
-    }
-
-    public function setColor(?string $color): static
-    {
-        $this->color = $color;
 
         return $this;
     }

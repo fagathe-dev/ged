@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FileTypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FileTypeRepository::class)]
@@ -27,6 +29,17 @@ class FileType
 
     #[ORM\Column(length: 50)]
     private ?string $icon = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $color = null;
+
+    #[ORM\OneToMany(mappedBy: 'type', targetEntity: File::class)]
+    private Collection $files;
+
+    public function __construct()
+    {
+        $this->files = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -89,6 +102,48 @@ class FileType
     public function setIcon(string $icon): static
     {
         $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): static
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, File>
+     */
+    public function getFiles(): Collection
+    {
+        return $this->files;
+    }
+
+    public function addFile(File $file): static
+    {
+        if (!$this->files->contains($file)) {
+            $this->files->add($file);
+            $file->setType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(File $file): static
+    {
+        if ($this->files->removeElement($file)) {
+            // set the owning side to null (unless already changed)
+            if ($file->getType() === $this) {
+                $file->setType(null);
+            }
+        }
 
         return $this;
     }
