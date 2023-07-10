@@ -1,1 +1,64 @@
 {% extends "base.html.twig" %}
+
+{% block main %}
+  <div class="row">
+    <div class="col-12 mt-3">
+      <h1 class="h3 mb-3 d-flex justify-content-between">
+        Mes dossiers
+        <a href="#" class="btn btn-sm btn-success">
+          <i class="ri-add-line"></i>
+          Nouveau dossier
+        </a>
+      </h1>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Nom</th>
+            <th scope="col">Modifié le</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for folder in folders %}
+            <tr>
+              <th scope="row">{{ folder.folder.id }}</th>
+              <td>{{ folder.folder.name|capitalize }}</td><!-- Lien vers la page show -->
+              <td>{{ (folder.folder.updatedAt ?? folder.folder.createdAt)|format_datetime('full', 'short', locale='fr') }}</td>
+              <td>
+                <div class="d-flex gap-3 justify-content-center">
+                  <button type="button" class="btn btn-ghost-primary btn-icon btn-sm favourite-btn">
+                    <i class="ri-star-fill fs-13 align-bottom"></i>
+                  </button>
+                  <div class="dropdown">
+                    <button class="btn btn-light btn-icon btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="ri-more-fill align-bottom"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" style="">
+                      <li>
+                        <a class="dropdown-item edit-list" href="#createFileModal" data-bs-toggle="modal" data-edit-id="1" role="button">
+                          Renommer
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item viewfile-list" href="#">
+                          Archiver
+                        </a>
+                      </li>
+                      <li class="dropdown-divider"></li>
+                      <li>
+                        <a class="dropdown-item remove-list" href="#removeFileItemModal" data-id="1" data-bs-toggle="modal" role="button">
+                          Supprimer
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}
