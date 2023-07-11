@@ -94,6 +94,22 @@ main {
   padding-top: 10px;
 }
 
-.card, .card-body, .card-header, .card-footer {
+.card,
+.card-body,
+.card-header,
+.card-footer {
   background-color: var(--vz-white);
+}
+
+.alert.alert-solid:not(.alert-light) .btn-close::after {
+  color: var(--vz-body-bg);
+}
+
+.alert.alert-solid.alert-light .btn-close::after {
+  color: inherit;
+}
+
+.link-custom,
+.link-custom:hover {
+  color: inherit;
 }

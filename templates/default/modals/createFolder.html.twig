@@ -1,0 +1,25 @@
+<div class="modal fade zoomIn" id="createFolderModal" tabindex="-1" aria-labelledby="createFolderModalLabel" aria-modal="true" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0">
+      <div class="modal-header p-3 bg-soft-success">
+        <h5 class="modal-title" id="createFolderModalLabel">Nouveau dossier</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ path('app_folder_api_create') }}" autocomplete="off" name="createModalForm" novalidate method="POST">
+          <div class="mb-4">
+            <label for="name" class="form-label">Nom du dossier</label>
+            <input type="text" class="form-control" name="name" id="name" required placeholder="Nom du dossier">
+          </div>
+          <div class="hstack gap-2 justify-content-end">
+            <button type="button" class="btn btn-ghost-success shadow-none" data-bs-dismiss="modal">
+              <i class="ri-close-line align-bottom"></i> 
+              Fermer
+            </button>
+            <button type="submit" class="btn btn-primary">Nouveau</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
