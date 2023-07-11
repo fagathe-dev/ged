@@ -77,12 +77,12 @@ final class FolderService
             );
         }
 
-        // $this->save($folder);
+        $this->save($folder);
         return $this->sendJson($folder, Response::HTTP_CREATED, [
-            'Delete-Route' => $this->router->generate('app_folder_api_delete', ['id' => 0]),
-            'Edit-Route' => $this->router->generate('app_folder_api_edit', ['id' => 0]),
-            'Show-Route' => $this->router->generate('app_folder_show', ['id' => 0]),
-            'Api-Show-Route' => $this->router->generate('app_folder_show', ['id' => 0]),
+            'Delete-Route' => $this->router->generate('app_folder_api_delete', ['id' => $folder->getId()]),
+            'Edit-Route' => $this->router->generate('app_folder_api_edit', ['id' => $folder->getId()]),
+            'Show-Route' => $this->router->generate('app_folder_show', ['id' => $folder->getId()]),
+            'Api-Show-Route' => $this->router->generate('app_folder_show', ['id' => $folder->getId()]),
         ]);
     }
 
