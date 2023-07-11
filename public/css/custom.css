@@ -113,3 +113,7 @@ main {
 .link-custom:hover {
   color: inherit;
 }
+
+.form-group {
+  margin-bottom: 15px;
+}

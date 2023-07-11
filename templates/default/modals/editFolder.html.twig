@@ -6,10 +6,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="{{ path('app_folder_api_create') }}" autocomplete="off" name="createModalForm" novalidate method="POST">
+        <form action="" autocomplete="off" name="editModalForm" novalidate method="POST">
           <div class="form-group">
-            <label for="name" class="form-label">Nom du dossier</label>
-            <input type="text" class="form-control" name="name" id="name" required placeholder="Nom du dossier">
+            <label for="folder_name" class="form-label">Nom du dossier</label>
+            <input type="text" class="form-control" name="name" id="folder_name" required placeholder="Nom du dossier">
           </div>
           <div class="hstack gap-2 justify-content-end">
             <button type="button" class="btn btn-ghost-success shadow-none" data-bs-dismiss="modal">

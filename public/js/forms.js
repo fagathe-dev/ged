@@ -108,7 +108,11 @@ const fillErrorMessage = (container, content = null) => {
 };
 
 const errorHTTPRequest = () =>
-  toast("Une érreur est survenue lors du traitement de la requête !", "danger");
+  new AFToast(
+    "Une érreur est survenue lors du traitement de la requête !",
+    "danger",
+    { isDismissible: true, duration: 5000 }
+  );
 
 const amountTypes = document.querySelectorAll("[data-type-amount]");
 

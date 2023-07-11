@@ -1,5 +1,10 @@
 (() => {
   const createModalForm = document.querySelector('[name="createModalForm"]');
+  const editModalForm = document.querySelector('[name="createModalForm"]');
+
+  const handleUpdateFolder = (event) => {
+    event.preventDefault();
+  };
 
   const handleCreateFolder = async (event) => {
     event.preventDefault();
@@ -8,21 +13,25 @@
     const method = form.getAttribute("method");
     const data = { ...getValues(form) };
 
-    // return await addFolderRow({});
-
     const res = await fetch(url, {
       body: JSON.stringify(data),
       method,
     });
 
+    const responseData = await res.json();
+
     if (!res.ok) {
-      return;
+      if (res.status === 400) {
+        console.error(res);
+        return validate(responseData?.violations ?? {}, form);
+      }
+      return errorHTTPRequest();
     }
     if (res.ok && res.status === 201) {
       resetValidation(form);
       form.reset();
-      const data = {
-        ...(await res.json()),
+      const folder = {
+        ...responseData,
         routes: {
           delete: res.headers.get("Delete-Route"),
           edit: res.headers.get("Edit-Route"),
@@ -30,8 +39,11 @@
           apiShow: res.headers.get("Api-Show-Route"),
         },
       };
-
-      return addFolderRow(data);
+      addFolderRow(folder);
+      return new AFToast("Le dossier a bien été enregistré 👍", "info", {
+        duration: 3000,
+        isDismissible: true,
+      });
     }
 
     return console.warn({ data, method, url, form, res });
@@ -42,7 +54,6 @@
     const container = document.getElementById("folderList");
     const template = document.getElementById("folderRowTemplate");
     const clone = template.content.cloneNode(true);
-    console.info({ clone, container, template, data });
     clone.querySelector(
       "[data-folder-date]"
     ).innerHTML = `${date.toLocaleDateString(
@@ -52,15 +63,21 @@
     clone.querySelector("[data-folder-name]").href = `${data?.routes?.show}`;
     clone.querySelector("[data-folder-id]").innerHTML = `${data?.id}`;
     clone.querySelector("[data-folder-rename]").href = `${data?.routes?.edit}`;
-    clone.querySelector("[data-folder-archieved]").href = `${data?.routes?.edit}`;
+    clone.querySelector(
+      "[data-folder-archieved]"
+    ).href = `${data?.routes?.edit}`;
     clone.querySelector(
       "[data-folder-delete]"
     ).href = `${data?.routes?.delete}`;
-    clone.querySelector("[data-folder-properties]").setAttribute('data-href', data?.routes?.apiShow);
+    clone
+      .querySelector("[data-folder-properties]")
+      .setAttribute("data-href", data?.routes?.apiShow);
 
     return container.querySelector("tbody").appendChild(clone);
   };
 
   createModalForm &&
     createModalForm.addEventListener("submit", handleCreateFolder);
+
+  editModalForm && editModalForm.addEventListener("submit", handleUpdateFolder);
 })();

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FolderRepository::class)]
 class Folder
@@ -19,6 +20,7 @@ class Folder
 
     #[ORM\Column(length: 100)]
     #[Groups(['folder_show'])]
+    #[Assert\NotBlank(message: 'Ce champ est obligatoire !')]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
