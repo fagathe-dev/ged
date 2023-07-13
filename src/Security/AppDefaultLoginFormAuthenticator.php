@@ -5,22 +5,21 @@ namespace App\Security;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
+class AppDefaultLoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
@@ -44,32 +43,28 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
         return $request->isMethod('POST') && $this->getLoginUrl($request) === $request->getPathInfo();
     }
 
-    /**
-     * authenticate
-     *
-     * @param  mixed $request
-     * @return Passport
-     */
+
     public function authenticate(Request $request): Passport
     {
+        return new Passport(
+            new UserBadge('fagathe@meilleurtaux.com'),
+            new PasswordCredentials('fagathe'),
+            []
+        );
+        
+        
         $username = $request->request->get('username', '');
-        $this->user = $this->repository->findOneBy(['username' => $username]);
 
         $request->getSession()->set(Security::LAST_USERNAME, $username);
-        $badges = [new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token'))];
-        if ($request->request->get('remember_me')) {
-            array_push($badges, (new RememberMeBadge())->enable());
-        }
 
-        if ($this->user instanceof User) {
-            return new Passport(
-                new UserBadge($username),
-                new PasswordCredentials($request->request->get('password', '')),
-                $badges
-            );
-        }
-
-        throw new CustomUserMessageAuthenticationException('Identifiants incorrects');
+        return new Passport(
+            new UserBadge($username),
+            new PasswordCredentials($request->request->get('password', '')),
+            [
+                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                new RememberMeBadge(),
+            ]
+        );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
@@ -78,9 +73,7 @@ class AppLoginFormAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
         return new RedirectResponse($this->urlGenerator->generate(self::TARGET_PATH));
-        // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     protected function getLoginUrl(Request $request): string

@@ -2,6 +2,11 @@
   const createModalForm = document.querySelector('[name="createModalForm"]');
   const editModalForm = document.querySelector('[name="createModalForm"]');
 
+  const getFolderData = async (url) => {
+    const res = await fetch(url);
+    return await res.json();
+  };
+
   const handleUpdateFolder = (event) => {
     event.preventDefault();
   };
